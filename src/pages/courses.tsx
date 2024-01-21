@@ -81,10 +81,11 @@ const Courses = () => {
           ))}
         </div>
       </div>
+
       <div className="grid lg:grid-cols-3 grid-cols-1 md:gap-3 gap-6 mt-5">
         {filteredCourses.map((course) => (
           <div
-            className="h-full  w-full flex justify-center items-center"
+            className="h-full w-full flex justify-center items-center p-5 md:p-0"
             key={course.courseId}
           >
             <CourseCard {...course} />

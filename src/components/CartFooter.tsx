@@ -11,35 +11,14 @@ type CartFooterProps = {
 const CartFooter: React.FC<CartFooterProps> = ({ cartValue, totalValue }) => {
   const router = useRouter();
 
-  const CheckoutHandler = async () => {
-    try {
-      const res = await axios.post(
-        "/api/checkout",
-        { amount: totalValue },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        }
-      );
 
-      if (res) {
-        const { clientSecret: clientSecret } = res.data;
-        console.log(res.data);
-        localStorage.setItem("clientSecret", clientSecret);
-        router.push("/checkout");
-      }
-    } catch (error) {
-      toast({ variant: "ordinary", description: "Something Went Wrong" });
-    }
-  };
 
   return (
     <>
       {cartValue !== 0 && (
         <div className="fixed bottom-0 left-0 w-full bg-white/5 backdrop-blur-lg p-4">
-          <div className="flex items-center justify-between px-[180px]">
-            <h1 className="text-white bg-clip-text bg-red-500 text-[35px] font-extrabold">
+          <div className="flex items-center justify-between lg:px-[180px]">
+            <h1 className="text-white bg-clip-text bg-red-500 lg:text-[35px] lg:font-extrabold font-medium">
               Cart Value : &nbsp;
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
                 ₹{totalValue}

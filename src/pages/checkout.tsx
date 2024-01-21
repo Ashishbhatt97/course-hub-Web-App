@@ -96,7 +96,7 @@ const CheckoutForm = () => {
       <form onSubmit={submitHandler} className="gap-5 flex flex-col ">
         <PaymentElement />
         <Button
-          className="w-full bg-green-500 hover:text-black text-white hover:border hover:border-green-500"
+          className="min-w-full bg-green-500 hover:text-black text-white hover:border hover:border-green-500"
           variant={"ordinary"}
         >
           {isProcessing ? "processing..." : "Pay"}

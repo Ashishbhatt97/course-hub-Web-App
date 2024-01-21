@@ -19,12 +19,16 @@ const CourseCard: React.FC<CourseCardProps> = ({
   instructorName,
 }) => {
   const router = useRouter();
-
+  const param = window.location.pathname;
   return (
     <div
       className="flex text-white h-fit lg:w-2/3 w-[350px] flex-col rounded-t-2xl overflow-hidden cursor-pointer"
       onClick={() => {
-        router.push(`/course/${courseId}`);
+        {
+          param === "/courses"
+            ? router.push(`/course/${courseId}`)
+            : router.push(`/purchased/${courseId}`);
+        }
       }}
     >
       <Card>

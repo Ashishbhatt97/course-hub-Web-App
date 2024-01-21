@@ -1,75 +1,15 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Card from "@/components/Card";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { userEmail } from "@/store/selectors/userEmail";
-import { wishlistAtom } from "@/store/atoms/wishlistAtom";
-import { userObjAtom } from "@/store/atoms/UserObjAtom";
-import { toast } from "@/components/ui/use-toast";
 
 export default function Page() {
   const router = useRouter();
   const courseId = router.query.id;
-  const userEmailState = useRecoilValue(userEmail);
 
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<any>({});
   const [prevcourse, setPrevcourse] = useState({});
-  const setWishlistCart = useSetRecoilState(wishlistAtom);
-  const setUser = useSetRecoilState(userObjAtom);
-  const [courseValue, setCourseValue] = useState<number>(0);
-
-  const CheckoutHandler = async () => {
-    try {
-      const res = await axios.post(
-        "/api/checkout",
-        { amount: courseValue },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        }
-      );
-
-      if (res) {
-        const { clientSecret: clientSecret } = res.data;
-        console.log(res.data);
-        localStorage.setItem("clientSecret", clientSecret);
-        router.push("/checkout");
-      }
-    } catch (error) {
-      toast({ variant: "ordinary", description: "Something Went Wrong" });
-    }
-  };
-
-  const addtoCartHandle = async () => {
-    const res = await axios.post(
-      `/api/user/add-wishlist`,
-      { courseId: courseId },
-      {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      }
-    );
-
-    if (res) {
-      if (res.data.user) {
-        setUser(res.data.user);
-        setWishlistCart(res.data.user.wishlist);
-      }
-
-      if (res.data.message) {
-        toast({
-          variant: "ordinary",
-          description: res.data.message,
-        });
-      }
-    }
-  };
 
   useEffect(() => {
     const getCourse = async () => {
@@ -80,7 +20,6 @@ export default function Page() {
         });
 
         setCourse(response.data.course);
-        setCourseValue(response.data.course.price);
         setPrevcourse(response.data);
         setLoading(false);
       } catch (error) {
@@ -118,26 +57,6 @@ export default function Page() {
                         {course.instructorName}
                       </span>
                     </h3>
-
-                    {userEmailState && (
-                      <div className="gap-3 flex w-full items-center justify-center md:justify-normal mt-6 md:mt-0 ">
-                        <Button
-                          variant={"ordinary"}
-                          className="text-black w-[151px]  border-black/80"
-                          onClick={addtoCartHandle}
-                        >
-                          Add to Cart
-                        </Button>
-
-                        <Button
-                          variant={"ordinary"}
-                          className="text-black w-[151px] border-black/80"
-                          onClick={CheckoutHandler}
-                        >
-                          Buy Now
-                        </Button>
-                      </div>
-                    )}
                   </div>
                   <div className="lg:w-1/2 w-full p-5 lg:h-[calc(100vh-210px)] lg:pl-[90px] flex items-center lg:items-start lg:justify-center">
                     <Image

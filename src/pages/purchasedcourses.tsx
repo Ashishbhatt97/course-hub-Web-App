@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { CourseObj } from "./api/Models/CourseModel";
 import CourseCard from "../components/CourseCard";
-import Card from "@/components/Card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 
@@ -43,21 +42,27 @@ const Courses = () => {
     <div className="flex flex-col pt-[80px] w-full h-full gap-4">
       {courses.length !== 0 ? (
         <>
-          <div className=" text-center text-[80px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-['poppins]">
+          <h1 className=" text-center md:text-[80px] text-[60px] font-extrabold text-transparent  bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-['helvetica']">
             PURCHASED COURSES.
-          </div>
-          <div className="">
-            <div className="text-white cursor-pointer flex items-center justify-center gap-4">
-              <div
-                className="w-fit bg-white/10 backdrop-blur-lg p-4 rounded-xl px-8 flex justify-center items-center "
-                onClick={() => handleFilterChange(null)}
-              >
-                All
+          </h1>
+
+          <div>
+            <div className="text-white cursor-pointer flex items-center gap-4 overflow-x-auto lg:justify-center  whitespace-nowrap">
+              <div className="px-4">
+                <div
+                  className="w-fit  bg-white/10 backdrop-blur-lg px-8 py-4 rounded-xl flex-shrink-0"
+                  onClick={() => handleFilterChange(null)}
+                >
+                  All
+                </div>
               </div>
-              {uniqueCategories.map((category) => (
-                <div key={category} className="flex px-4">
+              {uniqueCategories.map((category, index) => (
+                <div
+                  key={category}
+                  className={`flex px-4 ${index === 0 ? "pl-0" : ""}`}
+                >
                   <div
-                    className="w-fit bg-white/10 backdrop-blur-lg p-4 rounded-xl px-8 flex justify-center items-center"
+                    className="w-fit bg-white/10 backdrop-blur-lg px-8 py-4 rounded-xl flex-shrink-0"
                     onClick={() => handleFilterChange(category)}
                   >
                     {category}
@@ -67,10 +72,10 @@ const Courses = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 mt-5">
+          <div className="grid lg:grid-cols-3 grid-cols-1 md:gap-3 gap-6 mt-5">
             {filteredCourses.map((course) => (
               <div
-                className="h-full  w-full flex justify-center items-center"
+                className="h-full w-full flex justify-center items-center p-5 md:p-0"
                 key={course.courseId}
               >
                 <CourseCard {...course} />
@@ -80,8 +85,8 @@ const Courses = () => {
         </>
       ) : (
         <>
-          <div className="text-center w-full h-[50vh] flex flex-col items-center justify-center text-[80px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r text-white font-['poppins]">
-            <h1>NO COURSE PURCHASED</h1>
+          <div className="text-center w-full lg:h-[50vh] h-[50vh] p-4 md:p-0 flex flex-col items-center justify-center lg:text-[80px] text-[50px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r text-white font-['helvetica']">
+            <h1>NO COURSE PURCHASED!</h1>
             <Button
               className="text-center text-black flex items-center rounded-md w-[250px] p-5 justify-center"
               variant={"ordinary"}

@@ -123,11 +123,11 @@ const Form = () => {
 
   return (
     <form>
-      <div className="gap-9 flex flex-col p-12 ">
+      <div className="gap-9 flex flex-col p-12">
         {pathname === "/signup" && (
           <div className="flex gap-3 overflow-hidden">
             <div className="flex flex-col w-[160px]">
-              <label className="text-[#828283]" htmlFor="firstName">
+              <label className="text-[#d0d0d2]" htmlFor="firstName">
                 First Name:
               </label>
               <input
@@ -141,9 +141,9 @@ const Form = () => {
             </div>
 
             <div className="flex flex-col">
-              <label className="text-[#828283]">Last Name:</label>
+              <label className="text-[#d6d6d6]">Last Name:</label>
               <input
-                className="bg-transparent outline-none text-[#dadada] border-b-2 border-[#dadada] focus:border-white transition duration-300 ease-in-out"
+                className="bg-transparent outline-none text-[#dadada] border-b border-[#dadada] focus:border-white transition duration-300 ease-in-out"
                 type="text"
                 id="lastName"
                 name="lastName"
@@ -155,11 +155,11 @@ const Form = () => {
         )}
 
         <div className="flex flex-col">
-          <label className="text-[#828283]" htmlFor="email">
+          <label className="text-[#c1c1c3]" htmlFor="email">
             Email:
           </label>
           <input
-            className="bg-transparent outline-none text-[#dadada] border-b-2 border-[#dadada] focus:border-white transition duration-300 ease-in-out"
+            className="bg-transparent outline-none text-[#dadada] border-b border-[#dadada] focus:border-white transition duration-300 ease-in-out"
             type="email"
             id="email"
             name="email"
@@ -173,7 +173,7 @@ const Form = () => {
         </div>
 
         <div className="flex flex-col">
-          <label className="text-[#828283]" htmlFor="password">
+          <label className="text-[#b9b9bb]" htmlFor="password">
             Password:
           </label>
           <input
@@ -195,8 +195,8 @@ const Form = () => {
         <div className="justify-center items-center flex flex-col gap-3">
           {pathname === "/signup" ? (
             <Button
-              variant={"ordinary"}
-              className="w-[380px] h-[50px]"
+              variant={"extraOrdinary"}
+              className="lg:w-[400px] w-[290px] h-[50px]"
               type="submit"
               onClick={handleSignUpSubmit}
             >
@@ -204,8 +204,8 @@ const Form = () => {
             </Button>
           ) : (
             <Button
-              variant={"ordinary"}
-              className="w-[360px] h-[50px]"
+              variant={"extraOrdinary"}
+              className="lg:w-[400px] w-[290px] h-[50px]"
               type="submit"
               onClick={handleLoginSubmit}
             >

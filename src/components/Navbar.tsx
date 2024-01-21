@@ -241,7 +241,11 @@ export default function Navbar() {
           />
 
           {!userEmailSelector ? (
-            <Button variant={"ordinary"} onClick={() => router.push("/signup")}>
+            <Button
+              variant={"ordinary"}
+              className="hidden lg:block"
+              onClick={() => router.push("/signup")}
+            >
               Sign Up
             </Button>
           ) : (
