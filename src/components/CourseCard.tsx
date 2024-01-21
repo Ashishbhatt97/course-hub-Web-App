@@ -22,7 +22,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 
   return (
     <div
-      className="flex text-white  h-fit w-2/3 flex-col rounded-t-2xl overflow-hidden cursor-pointer"
+      className="flex text-white h-fit lg:w-2/3 w-[350px] flex-col rounded-t-2xl overflow-hidden cursor-pointer"
       onClick={() => {
         router.push(`/course/${courseId}`);
       }}
@@ -33,14 +33,14 @@ const CourseCard: React.FC<CourseCardProps> = ({
             src={imageUrl}
             alt="Course Image"
             layout="fill"
-            objectFit="cover"
+            objectFit="cover h-full w-full object-cover"
           />
         </div>
         <div className="flex flex-col gap-4">
           <h2 className="text-white mt-4 text-[18px] capitalize font-bold px-2">
             {title}
           </h2>
-          <div className="bg-white text-black text-[16px] h-[40px] font-semibold flex justify-between items-center px-2">
+          <div className="bg-white text-black md:text-[16px] text-[14px] h-[40px] font-semibold flex justify-between items-center px-2">
             <h2 className="text-black">Instructor Name :</h2>
             <h2 className="">{instructorName}</h2>
           </div>

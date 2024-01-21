@@ -166,7 +166,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="md:h-[80px]  h-[120px] z-50 flex w-full bg-white/5 backdrop-blur-2xl fixed">
+      <div className="md:h-[80px] h-[90px] z-50 flex w-full bg-white/5 backdrop-blur-2xl fixed">
         <div className="h-full md:w-[30%] w-[50%] flex items-center md:justify-center pl-[40px]">
           <Image
             className="cursor-pointer mt-2"
@@ -245,15 +245,21 @@ export default function Navbar() {
               Sign Up
             </Button>
           ) : (
-            <Button variant={"ordinary"} onClick={logOutHandle}>
-              Log Out
-            </Button>
+            <>
+              <Button
+                className="hidden lg:block"
+                variant={"ordinary"}
+                onClick={logOutHandle}
+              >
+                Log Out
+              </Button>
+            </>
           )}
         </div>
       </div>
 
       {sideNav && (
-        <div className="md:hidden fixed top-[120px] left-0 w-full h-[calc(100vh+110px)] z-50 backdrop-blur-2xl">
+        <div className="md:hidden fixed top-[90px] left-0 w-full h-[calc(100vh+110px)] z-50 backdrop-blur-2xl">
           <div className="pt-[80px] h-full text-[35px]">
             <ol className="flex gap-14 flex-col text-center">
               <ul
@@ -293,6 +299,7 @@ export default function Navbar() {
                   Purchased Courses
                 </ul>
               )}
+
               {!userEmailSelector ? (
                 <>
                   <ul

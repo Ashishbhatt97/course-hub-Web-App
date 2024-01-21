@@ -51,23 +51,28 @@ const Courses = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full h-full gap-4 pt-[80px]">
-      <div className=" text-center text-[80px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-['poppins]">
+    <div className="flex flex-col w-full h-full gap-4 lg:pt-[80px]  pt-[120px]">
+      <h1 className=" text-center md:text-[80px] text-[60px] font-extrabold text-transparent  bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-['helvetica']">
         COURSES.
-      </div>
+      </h1>
 
-      <div className="">
-        <div className=" text-white cursor-pointer flex items-center justify-center gap-4">
-          <div
-            className="w-fit bg-white/10 backdrop-blur-lg p-4 rounded-xl px-8 flex justify-center items-center"
-            onClick={() => handleFilterChange(null)}
-          >
-            All
+      <div>
+        <div className="text-white cursor-pointer flex items-center gap-4 overflow-x-auto lg:justify-center  whitespace-nowrap">
+          <div className="px-4">
+            <div
+              className="w-fit  bg-white/10 backdrop-blur-lg px-8 py-4 rounded-xl flex-shrink-0"
+              onClick={() => handleFilterChange(null)}
+            >
+              All
+            </div>
           </div>
-          {uniqueCategories.map((category) => (
-            <div key={category} className="flex px-4">
+          {uniqueCategories.map((category, index) => (
+            <div
+              key={category}
+              className={`flex px-4 ${index === 0 ? "pl-0" : ""}`}
+            >
               <div
-                className="w-fit bg-white/10 backdrop-blur-lg p-4 rounded-xl px-8 flex justify-center items-center"
+                className="w-fit bg-white/10 backdrop-blur-lg px-8 py-4 rounded-xl flex-shrink-0"
                 onClick={() => handleFilterChange(category)}
               >
                 {category}
@@ -76,7 +81,7 @@ const Courses = () => {
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-3 mt-5">
+      <div className="grid lg:grid-cols-3 grid-cols-1 md:gap-3 gap-6 mt-5">
         {filteredCourses.map((course) => (
           <div
             className="h-full  w-full flex justify-center items-center"

@@ -6,7 +6,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { userEmail } from "@/store/selectors/userEmail";
-import v2 from "../../../public/i2.jpg";
 import { wishlistAtom } from "@/store/atoms/wishlistAtom";
 import { userObjAtom } from "@/store/atoms/UserObjAtom";
 import { toast } from "@/components/ui/use-toast";
@@ -69,34 +68,34 @@ export default function Page() {
   }, [courseId]);
 
   return (
-    <div className="w-full flex pt-[80px] justify-center items-center text-white/90 h-[100vh] flex-col bg-slate-950">
+    <div className="w-full flex lg:pt-[80px] pt-[90px] justify-center items-center text-white/90 h-[100vh] flex-col bg-slate-950">
       <>
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
             {course && (
-              <div className="w-full h-full px-20 gap-4 flex flex-col mt-[20px]">
+              <div className="w-full h-full lg:px-20 lg:gap-4 flex flex-col mt-7 lg:mt-[20px] p-3 lg:p-0">
                 <div>
-                  <h2 className="text-[55px] font-extrabold tracking-wide">
+                  <h2 className="lg:text-[55px] md:text-[35px] sm:text-[30px] text-[26px] font-extrabold tracking-wide">
                     {course.title}
                   </h2>
                 </div>
-                <div className="flex">
-                  <div className="w-1/2 h-[calc(100vh-210px)] gap-4 flex flex-col">
-                    <h3 className="text-stone-500">description:</h3>
-                    <div className="h-[25vh] text-white/70 text-pretty truncate text-ellipsis ">
+                <div className="flex flex-col-reverse md:flex-row gap-2">
+                  <div className="lg:w-1/2 h-[calc(100vh-210px)] lg:gap-4 flex flex-col">
+                    <h3 className="text-stone-500">Description:</h3>
+                    <div className="lg:h-[26vh] w-full h-1/2 text-white/70 lg:text-pretty lg:truncate">
                       {course.courseDescription}
                     </div>
-                    <h3 className="text-stone-500">
-                      Instructor:{" "}
+                    <h3 className="text-stone-500 flex gap-1 lg:gap-0">
+                      Instructor:
                       <span className="text-white">
                         {course.instructorName}
                       </span>
                     </h3>
 
                     {userEmailState && (
-                      <div className="gap-3 flex ">
+                      <div className="gap-3 flex w-full items-center justify-center md:justify-normal mt-6 md:mt-0 ">
                         <Button
                           variant={"ordinary"}
                           className="text-black w-[151px]  border-black/80"
@@ -115,7 +114,7 @@ export default function Page() {
                       </div>
                     )}
                   </div>
-                  <div className="w-1/2 h-[calc(100vh-210px)] pl-[90px] flex items-start justify-center">
+                  <div className="lg:w-1/2 w-full p-5 lg:h-[calc(100vh-210px)] lg:pl-[90px] flex items-center lg:items-start lg:justify-center">
                     <Image
                       src={course.imageUrl}
                       width={500}
