@@ -10,6 +10,7 @@ type responseType = {
   token?: string;
   firstName?: string;
   userData?: {};
+  errorMessage?: String;
 };
 
 const userLoginMiddleware = async (
@@ -21,7 +22,7 @@ const userLoginMiddleware = async (
     const parsedUserObj = userValidationObj.safeParse(req.body);
 
     if (!parsedUserObj.success) {
-      return res.json({ message: parsedUserObj.error.errors[0].message });
+      return res.json({ errorMessage: parsedUserObj.error.errors[0].message });
     }
 
     if (!SECRET) {
@@ -34,7 +35,7 @@ const userLoginMiddleware = async (
     const response = await User.findOne({ email, password });
 
     if (!response) {
-      return res.json({ message: "User Not Found" });
+      return res.json({ errorMessage: "User Not Found" });
     } else {
       jwt.sign(
         { user: response },
@@ -55,7 +56,7 @@ const userLoginMiddleware = async (
     }
   } catch (error) {
     console.error(error);
-    res.json({ message: "Internal Server Error" });
+    res.json({ errorMessage: "Internal Server Error" });
   }
 };
 

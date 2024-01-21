@@ -25,14 +25,9 @@ export const CourseValidationObj = z.object({
   imageUrl: z
     .string()
     .max(350, { message: "Image Url not should be more than 350 Characters" }),
-  instructorName: z
-    .string()
-    .max(350, { message: "Image Url not should be more than 350 Characters" }),
+  instructorName: z.string().max(50, { message: "Instructor Name is Must" }),
   published: z.boolean().default(true),
-
-  category: z
-    .string()
-    .max(350, { message: "Image Url not should be more than 350 Characters" }),
+  category: z.string().max(150, { message: "Category is required field" }),
 });
 
 export const partialCourseModifyObj = CourseValidationObj.partial();

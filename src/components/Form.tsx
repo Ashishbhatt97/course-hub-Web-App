@@ -74,10 +74,18 @@ const Form = () => {
         {}
       );
 
-      toast({
-        variant: "ordinary",
-        title: `${response.data.firstName} Signed Up Successfully`,
-      });
+      if (response.data.errorMessage) {
+        toast({
+          variant: "ordinary",
+          title: `${response.data.errorMessage}`,
+        });
+      } else {
+        toast({
+          variant: "ordinary",
+          description: `${response.data.firstName} Signed Up Successfully`,
+        });
+        router.push("/login");
+      }
 
       setSignUpFormat(initialSignUpFormat);
     } catch (error) {
@@ -96,7 +104,12 @@ const Form = () => {
         {}
       );
 
-      if (response) {
+      if (response.data.errorMessage) {
+        toast({
+          variant: "ordinary",
+          description: `${response.data.errorMessage}`,
+        });
+      } else {
         toast({
           variant: "ordinary",
           description: `${response.data.userData.firstName} is Logged In Successfully`,

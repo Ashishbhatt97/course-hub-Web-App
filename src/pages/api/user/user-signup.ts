@@ -36,7 +36,7 @@ export default async function SignupHandler(
 
       if (userExists) {
         return res.json({
-          message: "User already Existed",
+          errorMessage: "User already Existed",
         });
       } else {
         const user = new User({
