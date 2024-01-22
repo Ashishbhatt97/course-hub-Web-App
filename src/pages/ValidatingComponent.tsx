@@ -6,6 +6,7 @@ import { userObjAtom } from "@/store/atoms/UserObjAtom";
 import { wishlistAtom } from "@/store/atoms/wishlistAtom";
 import { CourseObjAtom } from "@/store/atoms/CourseObjAtom";
 import { userEmail } from "@/store/selectors/userEmail";
+import { FeedbackAtom } from "@/store/atoms/feedbacksAtom";
 
 const ValidatingComponent = () => {
   const setUserObject = useSetRecoilState(UserObject);
@@ -13,6 +14,7 @@ const ValidatingComponent = () => {
   const setUserAtom = useSetRecoilState(userObjAtom);
   const setCourseObjAtom = useSetRecoilState(CourseObjAtom);
   const userEmailValue = useRecoilValue(userEmail);
+  const setFeedbacks = useSetRecoilState(FeedbackAtom);
 
   useEffect(() => {
     const getUserValidation = async () => {
@@ -58,7 +60,6 @@ const ValidatingComponent = () => {
     const getCourses = async () => {
       try {
         let response;
-
         if (userEmailValue === null) {
           response = await axios.get("/api/admin/get-courses", {});
         } else {
@@ -75,9 +76,16 @@ const ValidatingComponent = () => {
         console.log(error);
       }
     };
+
+    const getFeedbacks = async () => {
+      const response = await axios.get("/api/get-feedbacks", {});
+      setFeedbacks(response.data.feedbacks);
+    };
+
+    getFeedbacks();
     getUserValidation();
     getCourses();
-  }, [userEmailValue]);
+  }, []);
 
   return <></>;
 };

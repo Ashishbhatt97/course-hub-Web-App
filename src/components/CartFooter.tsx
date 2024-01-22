@@ -10,8 +10,28 @@ type CartFooterProps = {
 
 const CartFooter: React.FC<CartFooterProps> = ({ cartValue, totalValue }) => {
   const router = useRouter();
+  const CheckoutHandler = async () => {
+    try {
+      const res = await axios.post(
+        "/api/checkout",
+        { amount: totalValue },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
 
-
+      if (res) {
+        const { clientSecret: clientSecret } = res.data;
+        console.log(res.data);
+        localStorage.setItem("clientSecret", clientSecret);
+        router.push("/checkout");
+      }
+    } catch (error) {
+      toast({ variant: "ordinary", description: "Something Went Wrong" });
+    }
+  };
 
   return (
     <>

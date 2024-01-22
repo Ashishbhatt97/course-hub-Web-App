@@ -1,9 +1,20 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import Card from "@/components/Card";
 import Form from "@/components/Form";
 import Image from "next/image";
 import logo from "../../public/logo.png";
+import { useRecoilValue } from "recoil";
+import { userEmail } from "@/store/selectors/userEmail";
+import { useRouter } from "next/router";
+
 const login = () => {
+  const router = useRouter();
+  const email = useRecoilValue(userEmail);
+  if (email !== null) {
+    router.push("/");
+  }
+
   return (
     <>
       <div className="lg:h-[calc(100vh-80px)] h-full w-full lg:pt-[80px] pt-[90px] flex flex-col lg:flex-row items-center justify-center">

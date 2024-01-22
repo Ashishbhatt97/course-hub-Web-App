@@ -11,8 +11,20 @@ import {
 } from "@/components/ui/carousel";
 import { Avatar } from "./ui/avatar";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import Star from "./Star";
+import { useRecoilState } from "recoil";
+import { FeedbackAtom } from "@/store/atoms/feedbacksAtom";
+
+interface FeedbackFormProps {
+  message: string;
+  stars: number;
+  author: string;
+  key: any;
+}
 
 export function TestimonialSection() {
+  const [feeds, setFeeds] = useRecoilState(FeedbackAtom);
+
   return (
     <Carousel
       plugins={[
@@ -20,11 +32,14 @@ export function TestimonialSection() {
           delay: 2000,
         }),
       ]}
-      className="w-full lg:max-w-5xl max-w-[280px] md:max-w-[300px] p-4 md:p-3 lg:p-0"
+      className="w-full lg:max-w-5xl max-w-[280px] md:max-w-[300px] p-4 md:p-3 lg:p-8"
     >
       <CarouselContent className="-ml-1">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
+        {feeds.map((feeds: FeedbackFormProps) => (
+          <CarouselItem
+            key={feeds.author}
+            className="pl-1 md:basis-1/2 lg:basis-1/3"
+          >
             <div className="p-1">
               <Card className="flex justify-center flex-col items-center p-8">
                 <CardContent className="flex flex-col aspect-square   items-center justify-center p-1">
@@ -34,22 +49,19 @@ export function TestimonialSection() {
                         src="https://github.com/shadcn.png"
                         alt="avatar"
                       />
-                      <AvatarFallback>CN</AvatarFallback>
+                      <AvatarFallback>A</AvatarFallback>
                     </Avatar>
                   </div>
 
                   <div className="w-full h-[150px] flex flex-col justify-center text-center gap-3 ">
                     <p className="text-[#7a7979] line-clamp-3">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                      Itaque, quos! Odit culpa, eos sapiente temporibus, velit
-                      illo hic reiciendis laborum earum neque aut?
+                      {feeds.message}
                     </p>
-                    <h3 className="text-[#b2b2b2]">Stars : {5}/5</h3>
+                    <Star value={feeds.stars} key={1} />
                   </div>
 
                   <h3 className="text-md font-medium tracking-wide text-white/40 ">
-                    Author : <span className="text-white">Ashish Bhatt</span>
+                    Author : <span className="text-white">{feeds.author}</span>
                   </h3>
                 </CardContent>
               </Card>
