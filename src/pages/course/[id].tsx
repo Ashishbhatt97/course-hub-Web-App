@@ -10,6 +10,7 @@ import { wishlistAtom } from "@/store/atoms/wishlistAtom";
 import { userObjAtom } from "@/store/atoms/UserObjAtom";
 import { toast } from "@/components/ui/use-toast";
 import Loader from "@/components/Loader";
+import { TestimonialSection } from "@/components/TestimonialSection";
 
 export default function Page() {
   const router = useRouter();

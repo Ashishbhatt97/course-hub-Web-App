@@ -1,100 +1,3 @@
-// "use clients";
-
-// import axios from "axios";
-// import { useEffect } from "react";
-// import { useRecoilValue, useSetRecoilState } from "recoil";
-
-// import { UserObject } from "@/store/atoms/UserAtom";
-// import { userObjAtom } from "@/store/atoms/UserObjAtom";
-// import { wishlistAtom } from "@/store/atoms/wishlistAtom";
-// import { CourseObjAtom } from "@/store/atoms/CourseObjAtom";
-// import { userEmail } from "@/store/selectors/userEmail";
-
-// export const ValidatingComponent = () => {
-//   const setUserObject = useSetRecoilState(UserObject);
-//   const setWishlistCart = useSetRecoilState(wishlistAtom);
-//   const setUserAtom = useSetRecoilState(userObjAtom);
-//   const setCourseObjAtom = useSetRecoilState(CourseObjAtom);
-//   const cart = useRecoilValue(wishlistAtom);
-//   const userEmailValue = useRecoilValue(userEmail);
-
-//   useEffect(() => {
-//     const getUserValidation = async () => {
-//       try {
-//         const res = await axios.get("/api/user/userloginstatus", {
-//           headers: {
-//             Authorization: `Bearer ${localStorage.getItem("userToken")} `,
-//           },
-//         });
-//         const email = res.data.userData.email;
-//         const wishlistData = res.data.userData.wishlist;
-//         const userObjData = res.data.userData;
-
-//         if (userObjData && wishlistData && email) {
-//           setUserObject({
-//             userEmail: email,
-//             isUserLoading: false,
-//           });
-//           setUserAtom(userObjData);
-//           setWishlistCart(wishlistData);
-//         }
-
-//         if (!userObjData && !wishlistData && !email) {
-//           setUserAtom({});
-//           setWishlistCart([]);
-
-//           setUserObject({
-//             userEmail: null,
-//             isUserLoading: true,
-//           });
-//         }
-//       } catch (error) {
-//         if (error) {
-//           setUserObject({
-//             userEmail: null,
-//             isUserLoading: true,
-//           });
-//           setWishlistCart([]);
-//         }
-//       }
-//     };
-
-//     if (userEmailValue === null) {
-//       const getCourses = async () => {
-//         try {
-//           const response = await axios.get("/api/admin/get-courses", {});
-//           console.log(response.data.courses);
-//           setCourseObjAtom(response.data.courses);
-//         } catch (error) {
-//           console.log(error);
-//         }
-//         getCourses();
-//       };
-//     } else {
-//       const getCourses = async () => {
-//         try {
-//           const response = await axios.get("/api/user/show-unpurchased", {
-//             headers: {
-//               Authorization: `bearer ${localStorage.getItem("userToken")}`,
-//             },
-//           });
-//           console.log(response.data.courses);
-//           setCourseObjAtom(response.data.courses);
-//         } catch (error) {
-//           console.log(error);
-//         }
-//         getCourses();
-//       };
-//     }
-
-//     getUserValidation();
-//   }, []);
-
-//   return <></>;
-// };
-
-// export default ValidatingComponent;
-
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import axios from "axios";
@@ -109,7 +12,6 @@ const ValidatingComponent = () => {
   const setWishlistCart = useSetRecoilState(wishlistAtom);
   const setUserAtom = useSetRecoilState(userObjAtom);
   const setCourseObjAtom = useSetRecoilState(CourseObjAtom);
-  const cart = useRecoilValue(wishlistAtom);
   const userEmailValue = useRecoilValue(userEmail);
 
   useEffect(() => {
@@ -168,13 +70,11 @@ const ValidatingComponent = () => {
             },
           });
         }
-        console.log(response.data.courses);
         setCourseObjAtom(response.data.courses);
       } catch (error) {
         console.log(error);
       }
     };
-
     getUserValidation();
     getCourses();
   }, [userEmailValue]);

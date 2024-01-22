@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Loader from "@/components/Loader";
+import { userObjAtom } from "@/store/atoms/UserObjAtom";
+import route from "../api/create-payment";
+import { userEmail } from "@/store/selectors/userEmail";
+import { useRecoilValue } from "recoil";
 
 export default function Page() {
   const router = useRouter();
@@ -11,8 +15,13 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<any>({});
   const [prevcourse, setPrevcourse] = useState({});
+  const email = useRecoilValue(userEmail);
 
   useEffect(() => {
+    if (email === null) {
+      router.push("/login");
+    }
+
     setLoading(true);
     const getCourse = async () => {
       try {
@@ -29,7 +38,6 @@ export default function Page() {
         setLoading(false);
       }
     };
-
     getCourse();
   }, [courseId]);
 

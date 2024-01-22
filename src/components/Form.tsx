@@ -41,6 +41,17 @@ const Form = () => {
   const [signUpFormat, setSignUpFormat] = useState(initialSignUpFormat);
   const [loginFormat, setLoginFormat] = useState(initialLoginFormat);
 
+  let route = "";
+  if (pathname === "/signup") {
+    route = "/login";
+  } else if (pathname === "/admin/login") {
+    route = "/admin/signup";
+  } else if (pathname === "/admin/signup") {
+    route = "/admin/login";
+  } else {
+    route = "/signup";
+  }
+
   const handleSignupChange = (e: {
     target: { name: string; value: string };
   }) => {
@@ -87,7 +98,7 @@ const Form = () => {
   return (
     <form>
       <div className="gap-9 flex flex-col p-12">
-        {pathname === "/signup" && (
+        {pathname === "/signup" || pathname === "/admin/signup" ? (
           <div className="flex gap-3 overflow-hidden">
             <div className="flex flex-col w-[160px]">
               <label className="text-[#d0d0d2]" htmlFor="firstName">
@@ -115,7 +126,7 @@ const Form = () => {
               />
             </div>
           </div>
-        )}
+        ) : null}
 
         <div className="flex flex-col">
           <label className="text-[#c1c1c3]" htmlFor="email">
@@ -181,9 +192,9 @@ const Form = () => {
               : "Don't Have an Account? "}
             <span
               className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-bold cursor-pointer"
-              onClick={() =>
-                router.push(pathname === "/signup" ? "/login" : "/signup")
-              }
+              onClick={() => {
+                router.push(route);
+              }}
             >
               Click Here
             </span>

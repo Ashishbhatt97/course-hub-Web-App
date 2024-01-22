@@ -2,7 +2,7 @@ import Card from "@/components/Card";
 import Form from "@/components/Form";
 import Image from "next/image";
 import React from "react";
-import logo from "../../public/logo.png";
+import logo from "../../../public/logo.png";
 
 const SignUp = () => {
   return (

@@ -6,6 +6,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { CourseObjAtom } from "@/store/atoms/CourseObjAtom";
 import { userEmail } from "@/store/selectors/userEmail";
 import Loader from "@/components/Loader";
+import { TestimonialSection } from "@/components/TestimonialSection";
 
 const Courses = () => {
   const [loading, setLoading] = useState(true);
@@ -99,6 +100,7 @@ const Courses = () => {
           </div>
         ))}
       </div>
+
     </div>
   );
 };

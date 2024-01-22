@@ -26,37 +26,38 @@ export default function CarouselSlider() {
               delay: 2000,
             }),
           ]}
-          className="w-full lg:max-w-lg max-w-[250px] md:max-w-[450px] "
+          className="w-full lg:max-w-md max-w-[280px] md:max-w-[300px] p-4 md:p-3 lg:p-0 text-white/30 "
         >
           <CarouselContent>
             {courseObj.map((course) => (
               <CarouselItem key={course.courseId}>
                 <div className="relative">
                   <Card>
-                    <Image
-                      src={course.imageUrl}
-                      alt={course.title}
-                      height={700}
-                      width={700}
-                      className="object-fill w-full h-full rounded-xl"
-                    />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent rounded-xl"></div>
-                    <div className="absolute inset-0 flex items-start pl-4 justify-end flex-col">
-                      <h2 className="text-white/70 truncate hover:text-white transition-all ease-in-out duration-500 lg:text-lg md:text-base text-[16px] font-bold cursor-pointer">
-                        {course.title}
-                      </h2>
-                      <h2 className="text-white/35 text-md mb-3 font-bold ">
-                        - {course.instructorName}
-                      </h2>
+                    <div className="relative w-full h-[300px] overflow-hidden rounded-xl">
+                      <Image
+                        src={course.imageUrl}
+                        alt={course.title}
+                        width={500}
+                        height={500}
+                        className="object-cover object-center w-full h-full rounded-xl"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent rounded-xl"></div>
+                      <div className="absolute inset-0 flex items-start pl-4 justify-end flex-col">
+                        <h2 className="text-white/70 truncate hover:text-white transition-all ease-in-out duration-500 lg:text-lg md:text-base text-[16px] font-bold cursor-pointer">
+                          {course.title}
+                        </h2>
+                        <h2 className="text-white/35 text-md mb-3 font-bold ">
+                          - {course.instructorName}
+                        </h2>
+                      </div>
                     </div>
                   </Card>
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="text-white" />
+          <CarouselNext className="text-white" />
         </Carousel>
       </div>
 
