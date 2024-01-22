@@ -2,12 +2,8 @@ import React, { useState } from "react";
 import { Button } from "../components/ui/button";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
-import axios from "axios";
-import { useSetRecoilState } from "recoil";
-import { UserObject } from "@/store/atoms/UserAtom";
-import { toast } from "./ui/use-toast";
-import { wishlistAtom } from "@/store/atoms/wishlistAtom";
-import { userObjAtom } from "@/store/atoms/UserObjAtom";
+import useSignUp from "@/lib/hooks/useUserSignup";
+import { useLogin } from "@/lib/hooks/useUserLogin";
 
 export type user = {
   _id: "";
@@ -24,10 +20,7 @@ export type user = {
 const Form = () => {
   const router = useRouter();
   const pathname = usePathname();
-
-  const setUserObj = useSetRecoilState(UserObject);
-  const setUserObjAtom = useSetRecoilState(userObjAtom);
-  const setWishlistCart = useSetRecoilState(wishlistAtom);
+  console.log(pathname);
 
   const initialSignUpFormat = {
     firstName: "",
@@ -41,6 +34,8 @@ const Form = () => {
     password: "",
   };
 
+  const { handleSignUpSubmit } = useSignUp();
+  const { handleLoginSubmit } = useLogin();
   const [signUpFormat, setSignUpFormat] = useState(initialSignUpFormat);
   const [loginFormat, setLoginFormat] = useState(initialLoginFormat);
 
@@ -64,76 +59,16 @@ const Form = () => {
     }));
   };
 
-  const handleSignUpSubmit = async (e: { preventDefault: () => void }) => {
+  const signUpSubmitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        `/api/user/user-signup`,
-        signUpFormat,
-        {}
-      );
-
-      if (response.data.errorMessage) {
-        toast({
-          variant: "ordinary",
-          title: `${response.data.errorMessage}`,
-        });
-      } else {
-        toast({
-          variant: "ordinary",
-          description: `${response.data.firstName} Signed Up Successfully`,
-        });
-        router.push("/login");
-      }
-
-      setSignUpFormat(initialSignUpFormat);
-    } catch (error) {
-      console.log(error);
-    }
-    setSignUpFormat(initialSignUpFormat);
+    handleSignUpSubmit(signUpFormat);
   };
 
-  const handleLoginSubmit = async (e: { preventDefault: () => void }) => {
+  const loginSubmitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        `/api/user/user-login`,
-        loginFormat,
-        {}
-      );
-
-      if (response.data.errorMessage) {
-        toast({
-          variant: "ordinary",
-          description: `${response.data.errorMessage}`,
-        });
-      } else {
-        toast({
-          variant: "ordinary",
-          description: `${response.data.userData.firstName} is Logged In Successfully`,
-        });
-
-        router.push("/");
-        localStorage.setItem("userToken", response.data.token);
-
-        setLoginFormat(initialLoginFormat);
-
-        setUserObj({
-          isUserLoading: false,
-          userEmail: response.data.userData.email,
-        });
-
-        setUserObjAtom(response.data.userData);
-        setWishlistCart(response.data.userData.wishlist);
-      }
-    } catch (error) {
-      console.error("Error submitting sign up form:", error);
-    }
-    setLoginFormat(initialLoginFormat);
+    console.log(initialLoginFormat);
+    handleLoginSubmit(loginFormat);
   };
-
   return (
     <form>
       <div className="gap-9 flex flex-col p-12">
@@ -211,7 +146,7 @@ const Form = () => {
               variant={"extraOrdinary"}
               className="lg:w-[400px] w-[290px] h-[50px]"
               type="submit"
-              onClick={handleSignUpSubmit}
+              onClick={signUpSubmitHandler}
             >
               Create Account
             </Button>
@@ -220,7 +155,7 @@ const Form = () => {
               variant={"extraOrdinary"}
               className="lg:w-[400px] w-[290px] h-[50px]"
               type="submit"
-              onClick={handleLoginSubmit}
+              onClick={loginSubmitHandler}
             >
               Login
             </Button>

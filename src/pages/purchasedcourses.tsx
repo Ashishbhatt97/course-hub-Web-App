@@ -4,9 +4,11 @@ import { CourseObj } from "./api/Models/CourseModel";
 import CourseCard from "../components/CourseCard";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
+import Loader from "@/components/Loader";
 
 const Courses = () => {
   const [courses, setCourses] = useState<CourseObj[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string | null>(null);
   const router = useRouter();
 
@@ -23,6 +25,7 @@ const Courses = () => {
     : courses;
 
   useEffect(() => {
+    setLoading(true);
     const getCourses = async () => {
       try {
         const response = await axios.get("/api/user/purchased-courses", {
@@ -31,6 +34,7 @@ const Courses = () => {
           },
         });
         setCourses(response.data.purchasedCourse);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -38,7 +42,9 @@ const Courses = () => {
     getCourses();
   }, []);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="flex flex-col pt-[80px] w-full h-full gap-4">
       {courses.length !== 0 ? (
         <>

@@ -9,6 +9,7 @@ import { userEmail } from "@/store/selectors/userEmail";
 import { wishlistAtom } from "@/store/atoms/wishlistAtom";
 import { userObjAtom } from "@/store/atoms/UserObjAtom";
 import { toast } from "@/components/ui/use-toast";
+import Loader from "@/components/Loader";
 
 export default function Page() {
   const router = useRouter();
@@ -46,6 +47,7 @@ export default function Page() {
   };
 
   const addtoCartHandle = async () => {
+    setLoading(true);
     const res = await axios.post(
       `/api/user/add-wishlist`,
       { courseId: courseId },
@@ -56,12 +58,12 @@ export default function Page() {
       }
     );
 
+    setLoading(false);
     if (res) {
       if (res.data.user) {
         setUser(res.data.user);
         setWishlistCart(res.data.user.wishlist);
       }
-
       if (res.data.message) {
         toast({
           variant: "ordinary",
@@ -72,6 +74,7 @@ export default function Page() {
   };
 
   useEffect(() => {
+    setLoading(true);
     const getCourse = async () => {
       try {
         const link = `/api/admin/admin-getcourse`;
@@ -96,7 +99,7 @@ export default function Page() {
     <div className="w-full flex lg:pt-[80px] pt-[90px] justify-center items-center text-white/90 h-[100vh] flex-col bg-slate-950">
       <>
         {loading ? (
-          <p>Loading...</p>
+          <Loader />
         ) : (
           <>
             {course && (

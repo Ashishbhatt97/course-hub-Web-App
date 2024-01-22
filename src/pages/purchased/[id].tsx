@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
+import Loader from "@/components/Loader";
 
 export default function Page() {
   const router = useRouter();
@@ -12,6 +13,7 @@ export default function Page() {
   const [prevcourse, setPrevcourse] = useState({});
 
   useEffect(() => {
+    setLoading(true);
     const getCourse = async () => {
       try {
         const link = `/api/admin/admin-getcourse`;
@@ -35,7 +37,7 @@ export default function Page() {
     <div className="w-full flex lg:pt-[80px] pt-[90px] justify-center items-center text-white/90 h-[100vh] flex-col bg-slate-950">
       <>
         {loading ? (
-          <p>Loading...</p>
+          <Loader />
         ) : (
           <>
             {course && (

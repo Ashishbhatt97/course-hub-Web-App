@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { CourseObj } from "../pages/api/Models/CourseModel";
-import CourseCard from "../components/CourseCard";
+import { CourseObj } from "../../pages/api/Models/CourseModel";
+import CourseCard from "../../components/CourseCard";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { CourseObjAtom } from "@/store/atoms/CourseObjAtom";
 import { userEmail } from "@/store/selectors/userEmail";

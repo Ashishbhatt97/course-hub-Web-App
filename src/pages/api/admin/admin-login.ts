@@ -8,6 +8,7 @@ type responseType = {
   token?: String;
   firstName?: String;
   email?: String;
+  errorMessage?: String;
 };
 
 export const SECRET = process.env.JWT_SECRET_KEY;
@@ -20,20 +21,20 @@ const loginHandle = async (
   try {
     const parsedAdminObj = adminValidationObj.safeParse(req.body);
     if (!parsedAdminObj.success) {
-      res.json({ message: parsedAdminObj.error.errors[0].message });
+      res.json({ errorMessage: parsedAdminObj.error.errors[0].message });
       return;
     }
     const email = parsedAdminObj.data.email;
     const adminObj = await Admin.findOne({ email: email });
 
     if (!adminObj) {
-      res.json({ message: "Admin Not Found" });
+      res.json({ errorMessage: "Admin Not Found" });
     }
 
     if (!SECRET) return res.json({ message: "Expected JWT_SECRET_KEY" });
 
     jwt.sign(parsedAdminObj, SECRET, { expiresIn: "1h" }, (err, token) => {
-      if (err) return res.json({ message: "Error" });
+      if (err) return res.json({ errorMessage: "Error" });
       if (!token) return res.status(403).json({ message: "Token Missing" });
       req.headers["token"] = token;
       req.headers["email"] = req.body.email;
@@ -54,9 +55,9 @@ export default function adminLoginHandler(
     const email = req.headers["email"];
 
     if (typeof token !== "string")
-      return res.json({ message: "Undefined Token" });
+      return res.json({ errorMessage: "Undefined Token" });
     if (typeof email !== "string")
-      return res.json({ message: "Undefined firstName" });
+      return res.json({ errorMessage: "Undefined firstName" });
 
     res.json({ message: "Logged in successfully", token: token });
   });
