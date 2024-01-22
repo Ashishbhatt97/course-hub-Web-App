@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import useSignUp from "@/lib/hooks/useUserSignup";
 import { useLogin } from "@/lib/hooks/useUserLogin";
+import { useAdminLogin } from "@/lib/hooks/useAdminLogin";
+import useAdminSignup from "@/lib/hooks/useAdminSignup";
 
 export type user = {
   _id: "";
@@ -18,10 +20,6 @@ export type user = {
 };
 
 const Form = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-  console.log(pathname);
-
   const initialSignUpFormat = {
     firstName: "",
     lastName: "",
@@ -34,8 +32,12 @@ const Form = () => {
     password: "",
   };
 
+  const router = useRouter();
+  const pathname = usePathname();
   const { handleSignUpSubmit } = useSignUp();
   const { handleLoginSubmit } = useLogin();
+  const { handleAdminLoginSubmit } = useAdminLogin();
+  const { handleAdminSignUpSubmit } = useAdminSignup();
   const [signUpFormat, setSignUpFormat] = useState(initialSignUpFormat);
   const [loginFormat, setLoginFormat] = useState(initialLoginFormat);
 
@@ -61,14 +63,27 @@ const Form = () => {
 
   const signUpSubmitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    handleSignUpSubmit(signUpFormat);
+    if (pathname === "/signup") {
+      handleSignUpSubmit(signUpFormat);
+      setSignUpFormat(initialSignUpFormat);
+    } else {
+      handleAdminSignUpSubmit(signUpFormat);
+      setSignUpFormat(initialSignUpFormat);
+    }
   };
 
   const loginSubmitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log(initialLoginFormat);
-    handleLoginSubmit(loginFormat);
+    if (pathname === "/login") {
+      handleLoginSubmit(loginFormat);
+      setLoginFormat(initialLoginFormat);
+    } else {
+      handleAdminLoginSubmit(loginFormat);
+      setLoginFormat(initialLoginFormat);
+    }
   };
+
   return (
     <form>
       <div className="gap-9 flex flex-col p-12">

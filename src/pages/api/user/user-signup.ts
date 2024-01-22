@@ -31,7 +31,6 @@ export default async function SignupHandler(
 
       const userExists = await User.findOne({
         email: email,
-        password: password,
       });
 
       if (userExists) {

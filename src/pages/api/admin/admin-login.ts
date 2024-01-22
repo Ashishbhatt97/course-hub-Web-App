@@ -9,26 +9,30 @@ type responseType = {
   firstName?: String;
   email?: String;
   errorMessage?: String;
+  adminEmail?: string;
 };
 
 export const SECRET = process.env.JWT_SECRET_KEY;
 
-const loginHandle = async (
+const adminLoginMiddleware = async (
   req: NextApiRequest,
   res: NextApiResponse,
   next: Function
 ) => {
   try {
     const parsedAdminObj = adminValidationObj.safeParse(req.body);
+
     if (!parsedAdminObj.success) {
       res.json({ errorMessage: parsedAdminObj.error.errors[0].message });
       return;
     }
     const email = parsedAdminObj.data.email;
-    const adminObj = await Admin.findOne({ email: email });
+    const password = parsedAdminObj.data.password;
 
-    if (!adminObj) {
-      res.json({ errorMessage: "Admin Not Found" });
+    const response = await Admin.findOne({ email, password });
+
+    if (!response) {
+      return res.json({ errorMessage: "Admin Not Found" });
     }
 
     if (!SECRET) return res.json({ message: "Expected JWT_SECRET_KEY" });
@@ -36,8 +40,10 @@ const loginHandle = async (
     jwt.sign(parsedAdminObj, SECRET, { expiresIn: "1h" }, (err, token) => {
       if (err) return res.json({ errorMessage: "Error" });
       if (!token) return res.status(403).json({ message: "Token Missing" });
+
       req.headers["token"] = token;
-      req.headers["email"] = req.body.email;
+      req.headers["adminEmail"] = req.body.email;
+
       next();
     });
   } catch (err) {
@@ -50,15 +56,15 @@ export default function adminLoginHandler(
   res: NextApiResponse<responseType>
 ) {
   ConnectionDataBase();
-  loginHandle(req, res, async () => {
+  adminLoginMiddleware(req, res, async () => {
     const token = req.headers["token"];
-    const email = req.headers["email"];
+    const adminEmail = req.headers["adminEmail"];
 
     if (typeof token !== "string")
       return res.json({ errorMessage: "Undefined Token" });
-    if (typeof email !== "string")
+    if (typeof adminEmail !== "string")
       return res.json({ errorMessage: "Undefined firstName" });
 
-    res.json({ message: "Logged in successfully", token: token });
+    res.json({ message: "Logged in successfully", token: token, adminEmail });
   });
 }

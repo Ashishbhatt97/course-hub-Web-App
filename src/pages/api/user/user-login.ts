@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { User, userValidationObj } from "../Models/UserModel";
 import jwt from "jsonwebtoken";
 import { SECRET } from "../admin/admin-login";
 import { ConnectionDataBase } from "../ConnectionDb";
+import { NextApiRequest, NextApiResponse } from "next";
+import { User, userValidationObj } from "../Models/UserModel";
 
 type responseType = {
   email?: string;
