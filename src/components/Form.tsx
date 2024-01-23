@@ -85,7 +85,6 @@ const Form = () => {
 
   const loginSubmitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(initialLoginFormat);
     if (pathname === "/login") {
       handleLoginSubmit(loginFormat);
       setLoginFormat(initialLoginFormat);
@@ -138,10 +137,14 @@ const Form = () => {
             id="email"
             name="email"
             value={
-              pathname === "/signup" ? signUpFormat.email : loginFormat.email
+              pathname === "/signup" || pathname === "/admin/signup"
+                ? signUpFormat.email
+                : loginFormat.email
             }
             onChange={
-              pathname === "/signup" ? handleSignupChange : handleLoginChange
+              pathname === "/signup" || pathname === "/admin/signup"
+                ? handleSignupChange
+                : handleLoginChange
             }
           />
         </div>
@@ -156,18 +159,20 @@ const Form = () => {
             id="password"
             name="password"
             value={
-              pathname === "/signup"
+              pathname === "/signup" || pathname === "/admin/signup"
                 ? signUpFormat.password
                 : loginFormat.password
             }
             onChange={
-              pathname === "/signup" ? handleSignupChange : handleLoginChange
+              pathname === "/signup" || pathname === "/admin/signup"
+                ? handleSignupChange
+                : handleLoginChange
             }
           />
         </div>
 
         <div className="justify-center items-center flex flex-col gap-3">
-          {pathname === "/signup" ? (
+          {pathname === "/signup" || pathname === "/admin/signup" ? (
             <Button
               variant={"extraOrdinary"}
               className="lg:w-[400px] w-[290px] h-[50px]"

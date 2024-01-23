@@ -1,3 +1,5 @@
+"use client";
+
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import axios from "axios";
@@ -7,14 +9,18 @@ import { wishlistAtom } from "@/store/atoms/wishlistAtom";
 import { CourseObjAtom } from "@/store/atoms/CourseObjAtom";
 import { userEmail } from "@/store/selectors/userEmail";
 import { FeedbackAtom } from "@/store/atoms/feedbacksAtom";
+import { adminObj } from "@/store/atoms/AdminObj";
+import { AdminEmailAtom } from "@/store/atoms/AdminEmailAtom";
 
 const ValidatingComponent = () => {
-  const setUserObject = useSetRecoilState(UserObject);
-  const setWishlistCart = useSetRecoilState(wishlistAtom);
-  const setUserAtom = useSetRecoilState(userObjAtom);
-  const setCourseObjAtom = useSetRecoilState(CourseObjAtom);
   const userEmailValue = useRecoilValue(userEmail);
+  const setUserAtom = useSetRecoilState(userObjAtom);
+  const setAdminObjAtom = useSetRecoilState(adminObj);
+  const setUserObject = useSetRecoilState(UserObject);
   const setFeedbacks = useSetRecoilState(FeedbackAtom);
+  const setAdminEmail = useSetRecoilState(AdminEmailAtom);
+  const setWishlistCart = useSetRecoilState(wishlistAtom);
+  const setCourseObjAtom = useSetRecoilState(CourseObjAtom);
 
   useEffect(() => {
     const getUserValidation = async () => {
@@ -57,6 +63,29 @@ const ValidatingComponent = () => {
       }
     };
 
+    const getAdminLoginStatus = async () => {
+      try {
+        const res = await axios.get("/api/admin/adminloginstatus", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("adminToken") || ""}`,
+          },
+        });
+        const adminObjData = res.data.adminData;
+        if (adminObjData) {
+          setAdminObjAtom(res.data.adminData);
+          setAdminEmail(adminObjData.email);
+          setUserAtom(adminObjData);
+        }
+
+        if (!adminObjData) {
+          setAdminObjAtom({});
+        }
+      } catch (error) {
+        if (error) {
+        }
+      }
+    };
+
     const getCourses = async () => {
       try {
         let response;
@@ -82,9 +111,10 @@ const ValidatingComponent = () => {
       setFeedbacks(response.data.feedbacks);
     };
 
+    getCourses();
     getFeedbacks();
     getUserValidation();
-    getCourses();
+    getAdminLoginStatus();
   }, []);
 
   return <></>;

@@ -63,7 +63,7 @@ export default async function CreateCourse(
       const imageUrl = ParsedCourseObj.data.imageUrl;
       const instructorName = ParsedCourseObj.data.instructorName;
       const published = true;
-      const category = ParsedCourseObj.data.category;
+      const category = ParsedCourseObj.data.category.toLowerCase();
 
       const newCourse = new Course<courseModel>({
         courseId: Math.floor(Math.random() * 2000),

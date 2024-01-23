@@ -4,14 +4,15 @@ import { SECRET } from "./admin-login";
 import jwt from "jsonwebtoken";
 
 type responseType = {
-  message?: String;
-  Courses?: Object;
+  message?: string;
+  Courses?: object;
+  errorMessage?: string;
 };
 
-const adminVerify = async (
+const adminVerify = (
   req: NextApiRequest,
-  res: NextApiResponse,
-  next: Function
+  res: NextApiResponse<responseType>,
+  next: () => void
 ) => {
   if (!SECRET) {
     return res.json({ message: "Expected JWT_SECRET_KEY" });
@@ -19,18 +20,16 @@ const adminVerify = async (
 
   const authToken = req.headers.authorization;
   if (!authToken) {
-    return res.json({ message: "Unauthorized" });
-  } else {
-    const token = authToken.split(" ")[1];
-    jwt.verify(token, SECRET, (err, admin) => {
-      if (err) {
-        return res.json({ message: "Admin is Unauthorized" });
-      } else {
-        if (!admin) return res.json({ message: "User Undefined" });
-      }
-      next();
-    });
+    return res.json({ errorMessage: "Unauthorized" });
   }
+
+  const token = authToken.split(" ")[1];
+  jwt.verify(token, SECRET, (err, admin) => {
+    if (err || !admin) {
+      return res.json({ errorMessage: "Admin is Unauthorized" });
+    }
+    next();
+  });
 };
 
 export default async function deleteCourseHandler(
@@ -38,19 +37,25 @@ export default async function deleteCourseHandler(
   res: NextApiResponse<responseType>
 ) {
   adminVerify(req, res, async () => {
-    const courseId = req.query.courseId;
-    const availableCourses = await Course.findOneAndDelete({
-      courseId: courseId,
-    });
+    try {
+      const courseId = req.body.courseId;
+      const availableCourses = await Course.findOneAndDelete({
+        courseId: courseId,
+      });
 
-    if (!availableCourses) {
-      res.json({ message: "Course Not Found" });
-    } else {
+      if (!availableCourses) {
+        return res.json({ errorMessage: "Course Not Found" });
+      }
+
       const updatedCourses = await Course.find({ published: true });
-      res.json({
+
+      return res.json({
         message: "Course Deleted successfully",
         Courses: updatedCourses,
       });
+    } catch (error) {
+      console.error("Error in deleteCourseHandler:", error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   });
 }

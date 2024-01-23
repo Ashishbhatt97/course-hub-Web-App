@@ -2,6 +2,9 @@ import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "@/components/ui/use-toast";
+import { useSetRecoilState } from "recoil";
+import { adminObj } from "@/store/atoms/AdminObj";
+import { AdminEmailAtom } from "@/store/atoms/AdminEmailAtom";
 
 type loginFormatType = {
   email: string;
@@ -12,6 +15,8 @@ export function useAdminLogin() {
   const router = useRouter();
   const initialLoginFormat = {};
   const [loginFormat, setLoginFormat] = useState(initialLoginFormat);
+  const setAdminObjAtom = useSetRecoilState(adminObj);
+  const setAdminEmailAtom = useSetRecoilState(AdminEmailAtom);
 
   const handleAdminLoginSubmit = async (loginFormat: loginFormatType) => {
     try {
@@ -20,6 +25,7 @@ export function useAdminLogin() {
         loginFormat,
         {}
       );
+      console.log(response.data);
 
       if (response.data.errorMessage) {
         toast({
@@ -29,11 +35,13 @@ export function useAdminLogin() {
       } else {
         toast({
           variant: "ordinary",
-          description: `${response.data.userData.firstName} Admin is Logged In Successfully`,
+          description: `${response.data.admin.firstName} Admin is Logged In Successfully`,
         });
-        router.push("/");
         localStorage.setItem("adminToken", response.data.token);
+        setAdminObjAtom(response.data.admin);
+        setAdminEmailAtom(response.data.admin.email);
         setLoginFormat(initialLoginFormat);
+        router.push("/");
       }
     } catch (error) {
       console.error("Error submitting sign up form:", error);

@@ -54,7 +54,7 @@ export function TestimonialSection() {
                   </div>
 
                   <div className="w-full h-[150px] flex flex-col justify-center text-center gap-3 ">
-                    <p className="text-[#7a7979] line-clamp-3">
+                    <p className="text-[#7a7979] line-clamp-3 px-2">
                       {feeds.message}
                     </p>
                     <Star value={feeds.stars} key={1} />

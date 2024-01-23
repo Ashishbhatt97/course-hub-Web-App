@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { SECRET } from "../admin/admin-login";
 import jwt from "jsonwebtoken";
-import { Course } from "../Models/CourseModel";
 import { User } from "../Models/UserModel";
+import { SECRET } from "../admin/admin-login";
+import { Course } from "../Models/CourseModel";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export function verifyUserLoggedIn(
   req: NextApiRequest,

@@ -25,8 +25,8 @@ export const adminValidationObj = z.object({
   email: z
     .string()
     .email()
-    .min(3, { message: "Email Should be atleast 2 characters" })
-    .max(30, { message: "Email Should not more than 40 characters" }),
+    .min(3, { message: "Email Should atleast 2 characters" })
+    .max(30, { message: "Email Should not more than 30 characters" }),
 
   password: z
     .string()
@@ -36,7 +36,7 @@ export const adminValidationObj = z.object({
 
 const adminSchema = new mongoose.Schema<AdminObj>({
   firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  lastName: { type: String, required: false },
   email: { type: String, required: true },
   password: { type: String, required: true },
   adminId: { type: Number, required: true },

@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-
   images: {
     remotePatterns: [{
       protocol: 'https',
@@ -10,6 +9,10 @@ const nextConfig = {
     {
       protocol: 'https',
       hostname: '*.com'
+    },
+    {
+      protocol: 'https',
+      hostname: 'miro.medium.com'
     }
     ]
   }

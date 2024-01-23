@@ -6,7 +6,7 @@ import { ConnectionDataBase } from "../ConnectionDb";
 type responseType = {
   message?: String;
   token?: String;
-  firstName?: String;
+  admin?: Object;
   email?: String;
   errorMessage?: String;
   adminEmail?: string;
@@ -43,6 +43,7 @@ const adminLoginMiddleware = async (
 
       req.headers["token"] = token;
       req.headers["adminEmail"] = req.body.email;
+      req.headers["admin"] = response;
 
       next();
     });
@@ -59,12 +60,18 @@ export default function adminLoginHandler(
   adminLoginMiddleware(req, res, async () => {
     const token = req.headers["token"];
     const adminEmail = req.headers["adminEmail"];
+    const admin = req.headers["admin"];
+    console.log();
 
     if (typeof token !== "string")
       return res.json({ errorMessage: "Undefined Token" });
-    if (typeof adminEmail !== "string")
-      return res.json({ errorMessage: "Undefined firstName" });
+    if (typeof adminEmail !== "string" && admin === "string")
+      return res.json({ errorMessage: "Undefined" });
 
-    res.json({ message: "Logged in successfully", token: token, adminEmail });
+    res.json({
+      message: "Logged in successfully",
+      token: token,
+      admin,
+    });
   });
 }

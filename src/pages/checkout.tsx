@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
 import {
   Elements,
   PaymentElement,
@@ -17,7 +16,7 @@ import { wishlistAtom } from "@/store/atoms/wishlistAtom";
 import axios from "axios";
 
 const stripePromise = loadStripe(
-  "pk_test_51OaCAmSI8FJKhVHQ3mbbqh2vOUh0oeOs1cpwYMlp1FG20BBtZS8w00s7Hvu6nl1PUrA930GLVNGrHraKyWwkQPyn00rgI2X0ij"
+  `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`
 );
 
 const CheckoutForm = () => {

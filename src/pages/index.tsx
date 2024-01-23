@@ -14,7 +14,7 @@ export const index = () => {
   return (
     <>
       <div className="h-[100vh] w-full md:pt-[80px] pt-[100px]">
-        <div className="w-full flex lg:text-left text-center lg:h-[80vh] lg:p-4 p-2 h-[40vh] items-center">
+        <div className="w-full flex lg:text-left text-center lg:h-[80vh] p-2 h-[40vh] items-center">
           <div className="lg:w-1/2 h-full flex justify-center items-center lg:pl-44 ">
             <h2 className="text-[#dadada] lg:text-[85px] text-[50px] md:text-[65px] font-bold">
               Study Hard to Get

@@ -21,7 +21,7 @@ export const CourseValidationObj = z.object({
     .min(10, { message: "Minimum 20 Character Required" }),
   price: z
     .number()
-    .min(100, { message: "Course price should be more than 100₹" }),
+    .min(99, { message: "Course price should be more than 99₹" }),
   imageUrl: z
     .string()
     .max(350, { message: "Image Url not should be more than 350 Characters" }),

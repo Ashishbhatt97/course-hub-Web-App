@@ -6,6 +6,7 @@ type responseBody = {
   firstName?: String;
   token?: String;
   message?: String;
+  errorMessage?: String;
   Admin?: AdminObj;
 };
 
@@ -17,10 +18,8 @@ export default async function SignupHandler(
 ) {
   try {
     const AdminParsedObj = adminValidationObj.safeParse(req.body);
-
     if (!AdminParsedObj.success) {
-      res.json({ message: AdminParsedObj.error.errors[0].message });
-      return;
+      return res.json({ errorMessage: AdminParsedObj.error.errors[0].message });
     }
 
     const firstName = AdminParsedObj.data.firstName;
@@ -40,12 +39,14 @@ export default async function SignupHandler(
         password: password,
         adminId: Math.floor(Math.random() * 100),
       });
-      const response = await admin.save();
 
+      const response = await admin.save();
+      if (!response) return res.json({ errorMessage: "Something Went Wrong" });
       if (response) {
-        res.json({
+        return res.json({
           message: "Admin Created Successfully",
           firstName: firstName,
+          Admin: response,
         });
       }
     } else {

@@ -10,18 +10,21 @@ import { wishlistAtom } from "@/store/atoms/wishlistAtom";
 import { userObjAtom } from "@/store/atoms/UserObjAtom";
 import { toast } from "@/components/ui/use-toast";
 import Loader from "@/components/Loader";
-import { TestimonialSection } from "@/components/TestimonialSection";
+import { AdminEmailAtom } from "@/store/atoms/AdminEmailAtom";
+import { CourseObjAtom } from "@/store/atoms/CourseObjAtom";
+import EditCourseForm from "@/components/EditCourse";
 
 export default function Page() {
   const router = useRouter();
   const courseId = router.query.id;
-  const userEmailState = useRecoilValue(userEmail);
-
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<any>({});
   const [prevcourse, setPrevcourse] = useState({});
-  const setWishlistCart = useSetRecoilState(wishlistAtom);
   const setUser = useSetRecoilState(userObjAtom);
+  const userEmailState = useRecoilValue(userEmail);
+  const adminEmailState = useRecoilValue(AdminEmailAtom);
+  const setWishlistCart = useSetRecoilState(wishlistAtom);
+  const setCourseObjAtom = useSetRecoilState(CourseObjAtom);
   const [courseValue, setCourseValue] = useState<number>(0);
 
   const CheckoutHandler = async () => {
@@ -74,6 +77,32 @@ export default function Page() {
     }
   };
 
+  const deleteCourseHandle = async () => {
+    setLoading(true);
+    const res = await axios.delete(`/api/admin/delete-course`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+      },
+      data: {
+        courseId: courseId,
+      },
+    });
+
+    if (res) {
+      if (res.data.Courses) {
+        setCourseObjAtom(res.data.Courses);
+      }
+      if (res.data.message) {
+        toast({
+          variant: "ordinary",
+          description: res.data.message,
+        });
+      }
+    }
+    setLoading(false);
+    router.push("/courses");
+  };
+
   useEffect(() => {
     setLoading(true);
     const getCourse = async () => {
@@ -113,14 +142,20 @@ export default function Page() {
                 <div className="flex flex-col-reverse md:flex-row gap-2">
                   <div className="lg:w-1/2 h-[calc(100vh-210px)] lg:gap-4 flex flex-col">
                     <h3 className="text-stone-500">Description:</h3>
-                    <div className="lg:h-[26vh] w-full h-1/2 text-white/70 line-clamp-1">
+                    <h3 className="lg:h-[26vh] w-full h-1/2 text-white/70 line-clamp-1">
                       {course.courseDescription}
-                    </div>
+                    </h3>
+
                     <h3 className="text-stone-500 flex gap-1 mt-5">
                       Instructor:
                       <span className="text-white">
                         {course.instructorName}
                       </span>
+                    </h3>
+
+                    <h3 className="text-stone-500 flex gap-1">
+                      price:
+                      <span className="text-white">₹ {course.price}</span>
                     </h3>
 
                     {userEmailState && (
@@ -142,6 +177,18 @@ export default function Page() {
                         </Button>
                       </div>
                     )}
+
+                    <>
+                      {adminEmailState && (
+                        <Button
+                          variant={"ordinary"}
+                          className="text-black w-[151px] border-black/80"
+                          onClick={deleteCourseHandle}
+                        >
+                          Delete this Course
+                        </Button>
+                      )}
+                    </>
                   </div>
                   <div className="lg:w-1/2 w-full p-5 lg:h-[calc(100vh-210px)] lg:pl-[90px] flex items-center lg:items-start lg:justify-center">
                     <Image
@@ -153,6 +200,18 @@ export default function Page() {
                     />
                   </div>
                 </div>
+
+                {adminEmailState && (
+                  <div className=" bg-slate-700/20 rounded-2xl lg:py-6 pb-10 sm:pb-0  flex flex-col gap-5 sm:gap-0  items-center justify-center">
+                    <h2 className="text-white text-center mt-8 lg:mt-0 bg-clip-text w-full lg:text-[75px] text-[30px] font-extrabold ">
+                      EDIT COURSE
+                    </h2>
+
+                    <div className="flex items-center justify-center">
+                      <EditCourseForm />
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </>

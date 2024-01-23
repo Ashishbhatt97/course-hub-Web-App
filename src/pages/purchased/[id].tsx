@@ -1,28 +1,22 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
-import Loader from "@/components/Loader";
-import { userObjAtom } from "@/store/atoms/UserObjAtom";
-import route from "../api/create-payment";
-import { userEmail } from "@/store/selectors/userEmail";
+import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+import Loader from "@/components/Loader";
+import { useEffect, useState } from "react";
+import { userEmail } from "@/store/selectors/userEmail";
 import FeedbackForm from "@/components/Feedback";
+import EditCourseForm from "@/components/EditCourse";
 
 export default function Page() {
   const router = useRouter();
   const courseId = router.query.id;
-
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<any>({});
   const [prevcourse, setPrevcourse] = useState({});
   const email = useRecoilValue(userEmail);
 
   useEffect(() => {
-    if (email === null) {
-      router.push("/login");
-    }
-
     setLoading(true);
     const getCourse = async () => {
       try {
@@ -32,13 +26,18 @@ export default function Page() {
         });
 
         setCourse(response.data.course);
-        setPrevcourse(response.data);
+        setPrevcourse(response.data.course);
+        // if (email === null) {
+        //   router.push("/login");
+        //   setLoading(false);
+        // }
         setLoading(false);
       } catch (error) {
         console.error("Error fetching course data:", error);
         setLoading(false);
       }
     };
+
     getCourse();
   }, [courseId]);
 
@@ -69,6 +68,11 @@ export default function Page() {
                           <span className="text-white">
                             {course.instructorName}
                           </span>
+                        </h3>
+
+                        <h3 className="text-stone-500 flex gap-1">
+                          price:
+                          <span className="text-white">₹ {course.price}</span>
                         </h3>
                       </div>
                       <div className="lg:w-1/2 w-full p-5 lg:h-[calc(100vh-210px)] lg:pl-[90px] flex items-center lg:items-start lg:justify-center">

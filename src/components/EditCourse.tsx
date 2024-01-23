@@ -1,47 +1,50 @@
-"use client";
-import React from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-
+import React, { useState } from "react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { toast } from "./ui/use-toast";
+} from "./ui/form";
 import { Textarea } from "./ui/textarea";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { toast } from "./ui/use-toast";
 import axios from "axios";
 
-
-const FeedbackForm: React.FC = () => {
+const EditCourseForm = () => {
   const formSchema = z.object({
-    message: z.string().min(3, {
-      message: "Message must be at least 3 characters.",
-    }),
-    stars: z.number().int().max(5).min(1, {
-      message: "Stars Should Between 1 to 5.",
+    title: z.string().max(100, { message: "Limit exceeded" }).min(5),
+    courseDescription: z
+      .string()
+      .max(80, { message: "Limit exceeded" })
+      .min(10, { message: "Minimum 20 Character Required" }),
+    price: z
+      .number()
+      .min(99, { message: "Course price should be more than 99₹" }),
+    imageUrl: z.string().max(350, {
+      message: "Image Url not should be more than 350 Characters",
     }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      message: "",
-      stars: 1,
+      title: "",
+      courseDescription: "",
+      price: 99,
+      imageUrl: "",
     },
   });
 
   const onSubmit = async () => {
-    const response = await axios.post("", {
+    const response = await axios.post("/api/admin/edit-course", form, {
       headers: {
-        Authorization: `${localStorage.getItem("userToken")}`,
+        Authorization: `${localStorage.getItem("adminToken")}`,
       },
     });
 
@@ -58,10 +61,29 @@ const FeedbackForm: React.FC = () => {
       >
         <FormField
           control={form.control}
-          name="message"
+          name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Message</FormLabel>
+              <FormLabel>Course Title</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder=""
+                  className="border-slate-700 placeholder:text-gray-300/40 "
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="courseDescription"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Course Description</FormLabel>
               <FormControl>
                 <Textarea
                   rows={4}
@@ -76,10 +98,10 @@ const FeedbackForm: React.FC = () => {
         />
         <FormField
           control={form.control}
-          name="stars"
+          name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Rate this course out of 5</FormLabel>
+              <FormLabel>Price</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -100,4 +122,4 @@ const FeedbackForm: React.FC = () => {
   );
 };
 
-export default FeedbackForm;
+export default EditCourseForm;
