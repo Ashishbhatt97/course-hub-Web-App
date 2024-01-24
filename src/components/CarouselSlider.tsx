@@ -26,7 +26,7 @@ export default function CarouselSlider() {
               delay: 2000,
             }),
           ]}
-          className="w-full lg:max-w-md max-w-[280px] md:max-w-[300px] p-4 md:p-3 lg:p-0 text-white/30 "
+          className="w-full lg:max-w-md max-w-[280px] md:max-w-[600px] p-4 md:p-3 lg:p-0 text-white/30 "
         >
           <CarouselContent>
             {courseObj.map((course) => (

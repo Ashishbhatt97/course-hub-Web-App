@@ -80,9 +80,7 @@ export default function Navbar() {
             )}
           </ol>
         </div>
-        <div className="h-full md:w-[30%] w-[50%] justify-end pr-[30px] md:pr-0 flex items-center md:justify-center gap-9 ">
-          {/* Mobile Hamburger Menu */}
-
+        <div className="h-full md:w-[30%]  w-[50%] justify-end pr-[30px] md:pr-12 flex items-center md:justify-center gap-9 ">
           {userEmailSelector && (
             <div className="relative cursor-pointer">
               <div className="absolute bg-black left-3 bottom-2 rounded-full w-[20px] h-[20px] text-white flex items-center justify-center text-[12px] font-[poppins]">

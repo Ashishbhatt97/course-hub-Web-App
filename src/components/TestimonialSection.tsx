@@ -32,7 +32,7 @@ export function TestimonialSection() {
           delay: 2000,
         }),
       ]}
-      className="w-full lg:max-w-5xl max-w-[280px] md:max-w-[300px] p-4 md:p-3 lg:p-8"
+      className="w-full lg:max-w-5xl max-w-[280px] md:max-w-[600px] sm:max-w-[350px] p-4 md:p-3 lg:p-8"
     >
       <CarouselContent className="-ml-1">
         {feeds.map((feeds: FeedbackFormProps) => (

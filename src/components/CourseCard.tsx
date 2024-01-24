@@ -32,7 +32,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
       }}
     >
       <Card>
-        <div className="w-full h-48 relative overflow-hidden">
+        <div className="w-full lg:h-48 h-48 sm:h-58 relative overflow-hidden">
           <Image
             src={imageUrl}
             alt="Course Image"
@@ -41,16 +41,16 @@ const CourseCard: React.FC<CourseCardProps> = ({
           />
         </div>
         <div className="flex flex-col gap-4">
-          <h2 className="text-white mt-4 text-[18px] capitalize font-semibold px-2 line-clamp-1 ">
+          <h2 className="text-white mt-4 text-[18px] capitalize font-semibold px-2 line-clamp-1">
             {title}
           </h2>
-          <div className="bg-white text-black md:text-[16px] text-[14px] h-[40px] font-semibold flex justify-between items-center px-2">
+          <div className="bg-white text-black text-[14px] h-[40px] font-semibold flex justify-between items-center md:text-[12px] px-2">
             <h2 className="text-black">Instructor Name :</h2>
-            <h2 className="">{instructorName}</h2>
+            <h2 className="truncate">{instructorName}</h2>
           </div>
           <div className="flex justify-between items-center pb-3 px-2">
-            <h2 className="">Price Value</h2>
-            <h2 className="">₹ {price}</h2>
+            <h2>Price Value</h2>
+            <h2>₹ {price}</h2>
           </div>
         </div>
       </Card>

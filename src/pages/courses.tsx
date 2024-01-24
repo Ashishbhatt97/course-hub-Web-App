@@ -58,8 +58,8 @@ const Courses = () => {
   return loading ? (
     <Loader />
   ) : (
-    <div className="flex flex-col w-full h-full gap-4 lg:pt-[80px]  pt-[120px]">
-      <h1 className=" text-center md:text-[80px] text-[60px] font-extrabold text-transparent  bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-['helvetica']">
+    <div className="flex flex-col w-full h-full gap-4 lg:pt-[80px] pt-[120px]">
+      <h1 className=" text-center md:text-[80px] text-[60px] font-extrabold text-transparent  bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
         COURSES.
       </h1>
 
@@ -89,10 +89,10 @@ const Courses = () => {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 grid-cols-1 md:gap-3 gap-6 mt-5">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2  grid-cols-1 md:gap-3 gap-6 mt-5">
         {filteredCourses.map((course) => (
           <div
-            className="h-full w-full flex justify-center items-center p-5 md:p-0"
+            className="h-full w-full flex justify-center md:items-start items-center p-5 md:p-0"
             key={course.courseId}
           >
             <CourseCard {...course} />
