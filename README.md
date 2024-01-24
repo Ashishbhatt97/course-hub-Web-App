@@ -1,4 +1,4 @@
-# course-selling-mern
+# course-hub-Web-App
 
 ### Setup
 
