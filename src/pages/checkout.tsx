@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Elements,
@@ -112,7 +110,10 @@ const Checkout = () => {
     <Elements
       stripe={stripePromise}
       options={{
-        clientSecret: `${localStorage.getItem("clientSecret")}`,
+        clientSecret:
+          typeof window !== "undefined"
+            ? `${localStorage.getItem("clientSecret")}`
+            : "",
       }}
     >
       <div className="h-[calc(100vh-80px)] w-full pt-[80px] flex justify-center items-center ">
