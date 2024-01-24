@@ -13,7 +13,7 @@ const SignUp = () => {
         </h1>
       </div>
 
-      <div className="w-1/2 h-full">
+      <div className="lg:w-1/2 h-full">
         <div className="w-full h-full flex items-center justify-end">
           <Card className="lg:w-[480px] lg:h-[550px] w-[380px] h-fit">
             <div className="flex w-full items-center justify-center mt-5">
