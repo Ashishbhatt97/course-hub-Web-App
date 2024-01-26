@@ -15,41 +15,59 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
 import axios from "axios";
+import { useParams } from "next/navigation";
 
 const EditCourseForm = () => {
+  const params = useParams();
+
+
+  
   const formSchema = z.object({
-    title: z.string().max(100, { message: "Limit exceeded" }).min(5),
+    title: z.string().max(100, { message: "Limit exceeded" }).min(5).optional(),
     courseDescription: z
       .string()
-      .max(80, { message: "Limit exceeded" })
-      .min(10, { message: "Minimum 20 Character Required" }),
+      .max(350, { message: "Limit exceeded" })
+      .min(10, { message: "Minimum 20 Character Required" })
+      .optional(),
     price: z
-      .number()
-      .min(99, { message: "Course price should be more than 99₹" }),
-    imageUrl: z.string().max(350, {
-      message: "Image Url not should be more than 350 Characters",
-    }),
+      .string()
+      .max(3, { message: "Course price should below than 999₹" })
+      .optional(),
+    imageUrl: z
+      .string()
+      .max(350, {
+        message: "Image Url not should be more than 350 Characters",
+      })
+      .optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      courseDescription: "",
-      price: 99,
-      imageUrl: "",
+      title: undefined,
+      courseDescription: undefined,
+      price: undefined,
+      imageUrl: undefined,
     },
   });
 
   const onSubmit = async () => {
-    const response = await axios.post("/api/admin/edit-course", form, {
+    const requestData = {
+      ...form.control._formValues,
+      ...params,
+    };
+
+    const response = await axios.post("/api/admin/edit-course", requestData, {
       headers: {
-        Authorization: `${localStorage.getItem("adminToken")}`,
+        Authorization: `bearer ${localStorage.getItem("adminToken")}`,
       },
     });
 
     if (response) {
-      toast({ variant: "ordinary", description: "Feedback Submitted" });
+      toast({
+        variant: "ordinary",
+        description: "Course Updated Successfully",
+      });
     }
   };
 
@@ -105,7 +123,8 @@ const EditCourseForm = () => {
               <FormControl>
                 <Input
                   type="number"
-                  placeholder="Rating"
+                  inputMode="numeric"
+                  placeholder="price"
                   className="border-slate-700 placeholder:text-gray-300/40 "
                   {...field}
                 />

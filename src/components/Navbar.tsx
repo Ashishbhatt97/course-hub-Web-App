@@ -105,6 +105,17 @@ export default function Navbar() {
             </h2>
           ) : null}
 
+          {adminEmailState ? (
+            <h2
+              className="text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-semibold cursor-pointer hidden md:block"
+              onClick={() => {
+                router.push("/admin/addcourse");
+              }}
+            >
+              Add Course
+            </h2>
+          ) : null}
+
           <AlignRight
             className="text-gray-400 transition duration-300 ease-in-out hover:text-white cursor-pointer md:hidden"
             size={30}

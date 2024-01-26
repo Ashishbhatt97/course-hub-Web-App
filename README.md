@@ -1,4 +1,4 @@
-# course-selling-mern
+# course-selling-Web-App
 
 ### Setup
 

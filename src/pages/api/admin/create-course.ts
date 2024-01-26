@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 import { Course, CourseValidationObj } from "../Models/CourseModel";
-import { ConnectionDataBase } from "../ConnectionDb";
 import { SECRET } from "./admin-login";
 import jwt from "jsonwebtoken";
 
@@ -10,6 +9,7 @@ type responseMessage = {
   courseId?: Number;
   res?: {};
   title?: string;
+  errorMessage?: string;
 };
 
 const adminVerify = async (
@@ -23,38 +23,33 @@ const adminVerify = async (
 
   const authToken = req.headers.authorization;
   if (!authToken) {
-    return res.json({ message: "Unauthorized" });
+    return res.json({ errorMessage: "Unauthorized" });
   } else {
     const token = authToken.split(" ")[1];
     jwt.verify(token, SECRET, (err, admin) => {
       if (err) {
-        return res.json({ message: "Admin is Unauthorized" });
+        return res.json({ errorMessage: "Admin is Unauthorized" });
       } else {
         if (!admin) return res.json({ message: "User Undefined" });
       }
 
       if (typeof admin == "string") return res.send({ message: "Bad Request" });
-      req.headers["adminUsername"] = admin.data.firstName;
       next();
     });
   }
 };
 
 export type courseModel = z.infer<typeof CourseValidationObj>;
-
 export default async function CreateCourse(
   req: NextApiRequest,
   res: NextApiResponse<responseMessage>
 ) {
   adminVerify(req, res, async () => {
     try {
-      ConnectionDataBase();
-
       const ParsedCourseObj = CourseValidationObj.safeParse(req.body);
 
       if (!ParsedCourseObj.success) {
-        res.json({ message: ParsedCourseObj.error.issues[0].message });
-        return;
+        return res.json({ message: ParsedCourseObj.error.issues[0].message });
       }
 
       const title = ParsedCourseObj.data.title;
@@ -81,7 +76,7 @@ export default async function CreateCourse(
       if (response) {
         res.json({ message: "Course Created Successfully", res: response });
       } else {
-        res.json({ message: "Backend Problem" });
+        res.json({ errorMessage: "Something went wrong" });
       }
     } catch (error) {
       console.log(error);

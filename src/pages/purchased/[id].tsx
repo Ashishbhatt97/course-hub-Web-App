@@ -27,10 +27,7 @@ export default function Page() {
 
         setCourse(response.data.course);
         setPrevcourse(response.data.course);
-        // if (email === null) {
-        //   router.push("/login");
-        //   setLoading(false);
-        // }
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching course data:", error);

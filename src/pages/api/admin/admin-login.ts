@@ -37,7 +37,7 @@ const adminLoginMiddleware = async (
 
     if (!SECRET) return res.json({ message: "Expected JWT_SECRET_KEY" });
 
-    jwt.sign(parsedAdminObj, SECRET, { expiresIn: "1h" }, (err, token) => {
+    jwt.sign(parsedAdminObj, SECRET, { expiresIn: "24h" }, (err, token) => {
       if (err) return res.json({ errorMessage: "Error" });
       if (!token) return res.status(403).json({ message: "Token Missing" });
 

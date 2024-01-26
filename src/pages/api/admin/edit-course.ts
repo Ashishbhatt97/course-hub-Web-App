@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 type ResponseType = {
   message?: String;
   course?: Object;
+  errorMessage?: string;
 };
 
 const adminVerify = async (
@@ -20,14 +21,14 @@ const adminVerify = async (
 
   const authToken = req.headers.authorization;
   if (!authToken) {
-    return res.json({ message: "Unauthorized" });
+    return res.json({ errorMessage: "Unauthorized" });
   } else {
     const token = authToken.split(" ")[1];
     jwt.verify(token, SECRET, (err, admin) => {
       if (err) {
-        return res.json({ message: "Admin is Unauthorized" });
+        return res.json({ errorMessage: "Admin is Unauthorized" });
       } else {
-        if (!admin) return res.json({ message: "User Undefined" });
+        if (!admin) return res.json({ errorMessage: "Admin Undefined" });
       }
       next();
     });
@@ -41,27 +42,21 @@ export default async function editCourse(
   ConnectionDataBase();
   adminVerify(req, res, async () => {
     try {
-      const parseUpdatedCourse = partialCourseModifyObj.safeParse(req.body);
+      const title = req.body.title;
+      const courseDescription = req.body.courseDescription;
+      const courseId = parseInt(req.body.id);
+      const priceInt = parseInt(req.body.price);
 
-      if (!parseUpdatedCourse.success) {
-        return res.send({ message: parseUpdatedCourse.error.message });
-      }
-
-      const title = parseUpdatedCourse.data.title;
-      const courseDescription = parseUpdatedCourse.data.courseDescription;
-      const price = parseUpdatedCourse.data.price;
-
-      const courseId = req.query.courseId;
-      if (typeof courseId !== "string") {
-        return res.json({ message: "Wrong Input" });
+      if (typeof courseId === "string" || typeof priceInt === "string") {
+        return res.json({ errorMessage: "Wrong Input" });
       }
 
       const course = await Course.findOne({
-        courseId: parseInt(courseId),
+        courseId: courseId,
       });
 
       if (!course) {
-        res.json({ message: "Course Not Found" });
+        res.json({ errorMessage: "Course Not Found" });
       } else {
         if (title) {
           course.title = title;
@@ -69,10 +64,11 @@ export default async function editCourse(
         if (courseDescription) {
           course.courseDescription = courseDescription;
         }
-        if (price) {
-          course.price = price;
+        if (priceInt) {
+          course.price = priceInt;
         }
         const response = await course.save();
+        console.log(response);
 
         if (response) {
           res.send({
@@ -80,11 +76,11 @@ export default async function editCourse(
             course: response,
           });
         } else {
-          res.status(403).json({ message: "Course Update Failed" });
+          res.status(403).json({ errorMessage: "Course Update Failed" });
         }
       }
     } catch (error) {
-      res.send({ message: "Internal Server Error" });
+      res.send({ errorMessage: "Internal Server Error" });
     }
   });
 }

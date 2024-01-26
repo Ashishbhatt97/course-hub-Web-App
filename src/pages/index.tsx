@@ -16,7 +16,7 @@ export const index = () => {
       <div className="h-[100vh] w-full md:pt-[80px] pt-[100px]">
         <div className="w-full flex lg:text-left text-center lg:h-[80vh] p-2 h-[40vh] items-center  ">
           <div className="lg:w-1/2 h-full flex justify-center items-center lg:pl-44 ">
-            <h2 className="text-[#e8e8e8] lg:text-[85px] md:text-[70px] text-[50px] sm:font-extrabold lg:font-bold">
+            <h2 className="text-[#e8e8e8] lg:text-[85px] md:text-[70px] text-[50px] sm:font-extrabold font-bold lg:font-bold">
               Study Hard to Get
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
                 &nbsp; Dream Job...
@@ -40,8 +40,8 @@ export const index = () => {
             <div className="-translate-y-16 transition-transform group-hover:translate-y-4">
               <h2 className="pl-[45px] tracking-widest">EXPLORE MORE</h2>
             </div>
-            <div className="lg:h-[35px] h-[25px] -translate-y-5 lg:-translate-y-2  transition-transform group-hover:translate-y-10">
-              <h2 className="lg:pl-[45px] md:ml-[20px] ml-[20px] lg:ml-0 tracking-widest">
+            <div className="lg:h-[35px] h-[25px]  -translate-y-2 lg:-translate-y-2  transition-transform group-hover:translate-y-10">
+              <h2 className="lg:pl-[45px] md:ml-[20px] ml-[30px] lg:ml-0 tracking-widest">
                 EXPLORE MORE
               </h2>
             </div>
