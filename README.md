@@ -5,7 +5,7 @@
 1. Clone the repo
    
    ```sh
-   git clone https://github.com/Ashishbhatt97/course-selling-mern.git
+   git clone https://github.com/Ashishbhatt97/course-hub-Web-App.git
    ```
 
 ### Setting up Project In Local Machine
