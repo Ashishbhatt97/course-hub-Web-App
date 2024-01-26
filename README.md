@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# course-selling-Web-App
-=======
 # course-hub-Web-App
->>>>>>> 613c99398e61147d5d6b3bf0e6c6665749a7de22
 
 ### Setup
 
