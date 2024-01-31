@@ -6,7 +6,6 @@ import Loader from "@/components/Loader";
 import { useEffect, useState } from "react";
 import { userEmail } from "@/store/selectors/userEmail";
 import FeedbackForm from "@/components/Feedback";
-import EditCourseForm from "@/components/EditCourse";
 
 export default function Page() {
   const router = useRouter();
@@ -36,6 +35,11 @@ export default function Page() {
     };
 
     getCourse();
+
+    if (!email) {
+      <Loader />;
+    }
+    
   }, [courseId]);
 
   return (
