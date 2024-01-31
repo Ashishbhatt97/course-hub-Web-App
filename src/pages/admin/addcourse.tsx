@@ -24,9 +24,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Loader from "@/components/Loader";
+import { useRouter } from "next/router";
 
 const AddCourse = () => {
   const [loading, setLoading] = useState<Boolean>(false);
+  const router = useRouter();
 
   const formSchema = z.object({
     title: z.string().max(100, { message: "Limit exceeded" }).min(5),
@@ -86,8 +88,10 @@ const AddCourse = () => {
       } else {
         toast({
           variant: "ordinary",
-          description: `${response.data.admin.firstName} Admin is Logged In Successfully`,
+          description: "Course Created Successfully",
         });
+
+        router.push("/courses");
         setLoading(false);
       }
     } catch (error) {
