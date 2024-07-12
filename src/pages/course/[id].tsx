@@ -28,52 +28,61 @@ export default function Page() {
   const [courseValue, setCourseValue] = useState<number>(0);
 
   const CheckoutHandler = async () => {
-    try {
-      const res = await axios.post(
-        "/api/checkout",
-        { amount: courseValue },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        }
-      );
+    if (userEmailState) {
+      try {
+        const res = await axios.post(
+          "/api/checkout",
+          { amount: courseValue },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            },
+          }
+        );
 
-      if (res) {
-        const { clientSecret: clientSecret } = res.data;
-        console.log(res.data);
-        localStorage.setItem("clientSecret", clientSecret);
-        router.push("/checkout");
+        if (res) {
+          const { clientSecret: clientSecret } = res.data;
+          console.log(res.data);
+          localStorage.setItem("clientSecret", clientSecret);
+          router.push("/checkout");
+        }
+      } catch (error) {
+        toast({ variant: "ordinary", description: "Something Went Wrong" });
       }
-    } catch (error) {
-      toast({ variant: "ordinary", description: "Something Went Wrong" });
+    } else {
+      router.push("/login");
     }
   };
 
   const addtoCartHandle = async () => {
     setLoading(true);
-    const res = await axios.post(
-      `/api/user/add-wishlist`,
-      { courseId: courseId },
-      {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      }
-    );
 
-    setLoading(false);
-    if (res) {
-      if (res.data.user) {
-        setUser(res.data.user);
-        setWishlistCart(res.data.user.wishlist);
+    if (userEmailState) {
+      const res = await axios.post(
+        `/api/user/add-wishlist`,
+        { courseId: courseId },
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
+
+      setLoading(false);
+      if (res) {
+        if (res.data.user) {
+          setUser(res.data.user);
+          setWishlistCart(res.data.user.wishlist);
+        }
+        if (res.data.message) {
+          toast({
+            variant: "ordinary",
+            description: res.data.message,
+          });
+        }
       }
-      if (res.data.message) {
-        toast({
-          variant: "ordinary",
-          description: res.data.message,
-        });
-      }
+    } else {
+      router.push("/login");
     }
   };
 
@@ -158,25 +167,23 @@ export default function Page() {
                       <span className="text-white">₹ {course.price}</span>
                     </h3>
 
-                    {userEmailState && (
-                      <div className="gap-3 flex w-full items-center justify-center md:justify-normal mt-6 md:mt-0 ">
-                        <Button
-                          variant={"ordinary"}
-                          className="text-black w-[151px]  border-black/80"
-                          onClick={addtoCartHandle}
-                        >
-                          Add to Cart
-                        </Button>
+                    <div className="gap-3 flex w-full items-center justify-center md:justify-normal mt-6 md:mt-0 ">
+                      <Button
+                        variant={"ordinary"}
+                        className="text-black w-[151px]  border-black/80"
+                        onClick={addtoCartHandle}
+                      >
+                        Add to Cart
+                      </Button>
 
-                        <Button
-                          variant={"ordinary"}
-                          className="text-black w-[151px] border-black/80"
-                          onClick={CheckoutHandler}
-                        >
-                          Buy Now
-                        </Button>
-                      </div>
-                    )}
+                      <Button
+                        variant={"ordinary"}
+                        className="text-black w-[151px] border-black/80"
+                        onClick={CheckoutHandler}
+                      >
+                        Buy Now
+                      </Button>
+                    </div>
 
                     <>
                       {adminEmailState && (

@@ -16,8 +16,8 @@ export const index = () => {
       <div className="h-[100vh] w-full md:pt-[80px] pt-[100px]">
         <div className="w-full flex lg:text-left text-center lg:h-[80vh] p-2 h-[40vh] items-center  ">
           <div className="lg:w-1/2 h-full flex justify-center items-center lg:pl-44 ">
-            <h2 className="text-[#e8e8e8] lg:text-[85px] md:text-[70px] text-[50px] sm:font-extrabold font-bold lg:font-bold">
-              Study Hard to Get
+            <h2 className="text-[#e8e8e8] lg:text-[65px] lg:font-extrabold md:text-[70px] text-[50px] sm:font-extrabold font-bold">
+              Study Hard to Get Your
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
                 &nbsp; Dream Job...
               </span>
@@ -35,7 +35,7 @@ export const index = () => {
           </div>
         </div>
 
-        <div className="lg:w-[300px] w-[240px] flex lg:flex justify-between  text-white border-2 rounded-full items-center absolute lg:bottom-[320px] lg:left-[470px] bottom-[200px] left-[70px] md:bottom-[550px] md:left-[280px] cursor-pointer">
+        {/* <div className="lg:w-[300px] w-[240px] flex lg:flex justify-between  text-white border-2 rounded-full items-center absolute lg:bottom-[320px] lg:left-[470px] bottom-[200px] left-[70px] md:bottom-[550px] md:left-[280px] cursor-pointer">
           <div className="group overflow-hidden text-[15px] lg:text-[18px]">
             <div className="-translate-y-16 transition-transform group-hover:translate-y-4">
               <h2 className="pl-[45px] tracking-widest">EXPLORE MORE</h2>
@@ -50,7 +50,7 @@ export const index = () => {
           <div className="border-2 border-gray-700 rounded-full p-4">
             <MoveDown size={28} />
           </div>
-        </div>
+        </div> */}
         <CarouselSlider />
         <div className="flex flex-col  items-center justify-center text-white/10">
           <div className="h-full w-full text-center">
